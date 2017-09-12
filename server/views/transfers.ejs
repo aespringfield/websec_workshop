@@ -12,6 +12,7 @@
   <div class="mui-tabs__pane mui--is-active">
     <div class="spacer-t-20"></div>
     <form class="mui-form" action='/transfers/perform' method='post'>
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>"
       <legend>Begin a Funds Transfer</legend>
       <div class="spacer-t-20"></div>
       <div class="mui-textfield">
@@ -22,7 +23,7 @@
               <% if (account.id == accountFrom) { %>
                 selected
               <% } %> >
-              <%= account.maskedAccountNumber %>(<%- account.name %>)
+              <%= account.maskedAccountNumber %>(<%= account.name %>)
               $<%= account.balance %>
             </option>
           <% } %>
@@ -32,14 +33,14 @@
       <div class="mui-textfield">
         <select name='accountTo'>
           <% for (let username in userAccounts) { %>
-          <optgroup label="<%- username %>">
+          <optgroup label="<%= username %>">
             <% for (let account of userAccounts[username]) {%>
               <option
-                value="<%- account.id %>"
+                value="<%= account.id %>"
                 <% if (account.id == accountTo) { %>
                 selected
                 <% } %> >
-                <%= account.maskedAccountNumber %>(<%- account.name %>)
+                <%= account.maskedAccountNumber %>(<%= account.name %>)
                 $<%= account.balance %>
               </option>
             <% } %>
@@ -49,7 +50,7 @@
         <label>To Account</label>
       </div>
       <div class="mui-textfield mui-textfield--float-label">
-        <input name='amount' type="text" required placeholder="Amount ($)" value=<%- amount || 0 %>>
+        <input name='amount' type="text" required placeholder="Amount ($)" value=<%= amount || 0 %>>
         <label for="amount">Amount</label>
       </div>
       <button type="submit" class="mui-btn mui-btn--primary">
